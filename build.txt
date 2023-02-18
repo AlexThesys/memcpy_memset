@@ -1,0 +1,7 @@
+nasm -f win64 -D__AVX2__ memset.asm -o memset.obj 
+nasm -f win64 -D__AVX2__ memcpy.asm -o memcpy.obj
+LIB /OUT:memset.lib memset.obj
+LIB /OUT:memcpy.lib memscpy.obj 
+
+
+Usage: don't forget extern "C"
