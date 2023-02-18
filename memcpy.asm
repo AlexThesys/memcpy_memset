@@ -232,7 +232,7 @@ __folly_memcpy:
 
         ALIGN      	2
 .L_NON_TEMPORAL_LOOP:
-        test        sil, 0x1f
+        test        dl, 0x1f
         jne         .L_ALIGNED_DST_LOOP
         ; This is prefetching the source data unlike ALIGNED_DST_LOOP which
         ; prefetches the destination data. This choice is again informed by

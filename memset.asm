@@ -216,7 +216,7 @@ LABEL(none_or_one):
         test            r8, r8
         je              LABEL(exit)
         ; Store one and exit
-        mov             byte [rcx], sil
+        mov             byte [rcx], dl
         ret
 
 %ifdef FOLLY_MEMSET_IS_MEMSET
