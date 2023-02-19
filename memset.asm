@@ -187,7 +187,7 @@ LABEL(large_stosq):
 ; rdx is the value
 ; r8 is length
 		mov 			r9, rdi
-        vmovq           rax, xmm0
+        vmovq           rax, xmm0 ; movd eax, xmm0 ?
         mov             qword [rcx], rax
         mov             rdx, rcx
         ; Align rdi to 8B
