@@ -1,7 +1,16 @@
+win64:
+
 nasm -f win64 -D__AVX2__ memset.asm -o memset.obj 
 nasm -f win64 -D__AVX2__ -D__PRFCHW__ memcpy.asm -o memcpy.obj
-LIB /OUT:memset.lib memset.obj
-LIB /OUT:memcpy.lib memscpy.obj 
 
+LIB /OUT:memset.lib memset.obj
+LIB /OUT:memcpy.lib memcpy.obj 
+
+linux:
+nasm -f elf64 -D__AVX2__ memset.asm -o memset.obj 
+nasm -f elf64 -D__AVX2__ -D__PRFCHW__ memcpy.asm -o memcpy.obj
+
+ar rcs memset.a memset.obj
+ar rcs memcpy.a memcpy.obj
 
 Usage: don't forget extern "C"
