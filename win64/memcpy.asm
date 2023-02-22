@@ -56,7 +56,6 @@ __folly_memcpy_short:
         global      __folly_memcpy
 
 __folly_memcpy:
-
         mov         rax, rcx    ; return: rcx
 
         test        r8, r8
@@ -109,11 +108,26 @@ __folly_memcpy:
         vmovdqu     yword [rcx], ymm0
         vmovdqu     yword [rcx+r8-0x20], ymm7
 
+		; epilogue
+		vmovdqa		xmm6, oword [rsp]
+		vmovdqa		xmm7, oword [rsp+0x10]
+		vmovdqa		xmm8, oword [rsp+0x20]
         vzeroupper
+		mov			rsp, rbp
+		pop			rbp
         ret
 
         ALIGN      	2
 .L_GE33:
+		; prologue
+		push 		rbp
+		mov 		rbp, rsp
+		and			rsp, 0xFFFFFFFFFFFFFFF0
+		sub 		rsp, 0x30
+		movdqa		oword [rsp], xmm6
+		movdqa		oword [rsp+0x10], xmm7
+		movdqa		oword [rsp+0x20], xmm8
+		
         vmovdqu     ymm0, yword [rdx]
         vmovdqu     ymm7, yword [rdx+r8-0x20]
 
@@ -226,8 +240,13 @@ __folly_memcpy:
         vmovdqu     yword [rcx+r8-0x60], ymm5
         vmovdqu     yword [rcx+r8-0x40], ymm6
         vmovdqu     yword [rcx+r8-0x20], ymm7
-
+		; epilogue
+		vmovdqa		xmm6, oword [rsp]
+		vmovdqa		xmm7, oword [rsp+0x10]
+		vmovdqa		xmm8, oword [rsp+0x20]
         vzeroupper
+		mov			rsp, rbp
+		pop			rbp
         ret
 
         ALIGN      	2
@@ -316,6 +335,12 @@ __folly_memcpy:
         vzeroupper
 
 .L_RET:
+		; epilogue
+		movdqa		xmm6, oword [rsp]
+		movdqa		xmm7, oword [rsp+0x10]
+		movdqa		xmm8, oword [rsp+0x20]
+		mov			rsp, rbp
+		pop			rbp
         ret
 
 .L_OVERLAP_BWD:
@@ -361,9 +386,14 @@ __folly_memcpy:
         vmovdqu     yword [rax+0x40], ymm2
         vmovdqu     yword [rax+0x60], ymm3
         vmovdqu     yword [r11], ymm8
-
+		; epilogue
+		vmovdqa		xmm6, oword [rsp]
+		vmovdqa		xmm7, oword [rsp+0x10]
+		vmovdqa		xmm8, oword [rsp+0x20]
         vzeroupper
-	ret
+		mov			rsp, rbp
+		pop			rbp
+		ret
 
 %ifdef FOLLY_MEMCPY_IS_MEMCPY
         .weak       memcpy
