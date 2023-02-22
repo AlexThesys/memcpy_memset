@@ -41,7 +41,7 @@ LABEL(in_4_to_16):
         jbe             LABEL(in_4_to_8)
         ; Two 8-wide stores, up to 16 bytes.
         mov             qword [rcx+r8-0x8], rdx
-        mov             rcx, rdx
+        mov             qword [rcx], rdx
         vzeroupper
         ret
 
