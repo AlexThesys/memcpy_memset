@@ -300,7 +300,7 @@ __folly_memcpy:
 .L_OVERLAP_BWD:
         ; Save last 0x20 bytes.
         vmovdqu     ymm8, yword [rsi+rdx-0x20]
-        lea         r9, [rdi+rdx+0x20]
+        lea         r9, [rdi+rdx-0x20]
 
 
         ; r10 is the end condition for the loop.
